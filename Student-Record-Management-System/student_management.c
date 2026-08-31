@@ -14,6 +14,7 @@ struct Student {
 void addStudent(struct Student students[], int *count);
 void displayStudents(struct Student students[], int count);
 void searchStudent(struct Student students[], int count);
+void updateStudent(struct Student students[], int count);
 
 int main() {
 
@@ -30,7 +31,8 @@ int main() {
         printf("1. Add Student\n");
         printf("2. Display Students\n");
         printf("3. Search Student\n");
-        printf("4. Exit\n");
+        printf("4. Update Student\n");
+        printf("5. Exit\n");
 
         printf("\nEnter your choice: ");
         scanf("%d", &choice);
@@ -48,8 +50,12 @@ int main() {
             case 3:
                 searchStudent(students, count);
                 break;
-
+            
             case 4:
+                updateStudent(students, count);
+                break;
+
+            case 5:
                 printf("\nExiting program...\n");
                 return 0;
 
@@ -147,6 +153,52 @@ void searchStudent(struct Student students[], int count) {
     }
 
     if (!found) {
+        printf("\nStudent with Roll Number %d not found!\n", rollNo);
+    }
+}
+
+//===============================
+// UPDATE STUDENT
+//===============================
+
+void updateStudent(struct Student students[], int count) {
+
+    int rollNo;
+    int found = 0;
+
+    if (count == 0) {
+        printf("\nNo students found!\n");
+        return;
+    }
+
+    printf("\n========== UPDATE STUDENT ==========\n");
+
+    printf("Enter Roll Number to update: ");
+    scanf("%d", &rollNo);
+
+    for (int i = 0; i < count; i++) {
+
+        if (students[i].rollNo == rollNo) {
+
+            printf("\nStudent Found!\n");
+        
+            printf("Current Name : %s\n", students[i].name);
+            printf("Enter New name: ");
+            scanf(" %[^\n]", students[i].name);
+
+            printf("Current Age  : %d\n", students[i].age);
+            printf("Enter New Age: ");
+            scanf("%d", &students[i].age);
+
+            found = 1;
+
+            printf("\nStudent updated successfully!\n");
+        
+            break;
+        }
+    }
+
+    if (found == 0) {
         printf("\nStudent with Roll Number %d not found!\n", rollNo);
     }
 }
