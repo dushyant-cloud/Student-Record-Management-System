@@ -15,6 +15,8 @@ void addStudent(struct Student students[], int *count);
 void displayStudents(struct Student students[], int count);
 void searchStudent(struct Student students[], int count);
 void updateStudent(struct Student students[], int count);
+void deleteStudent(struct Student students[], int *count);
+
 
 int main() {
 
@@ -32,7 +34,8 @@ int main() {
         printf("2. Display Students\n");
         printf("3. Search Student\n");
         printf("4. Update Student\n");
-        printf("5. Exit\n");
+        printf("5. Delete Student\n");
+        printf("6. Exit\n");
 
         printf("\nEnter your choice: ");
         scanf("%d", &choice);
@@ -56,6 +59,10 @@ int main() {
                 break;
 
             case 5:
+                deleteStudent(students, &count);
+                break;
+
+            case 6:
                 printf("\nExiting program...\n");
                 return 0;
 
@@ -200,5 +207,49 @@ void updateStudent(struct Student students[], int count) {
 
     if (found == 0) {
         printf("\nStudent with Roll Number %d not found!\n", rollNo);
+    }
+}
+
+// ========================================
+// DELETE STUDENT
+// ========================================
+
+void deleteStudent(struct Student students[], int *count) {
+
+    int rollNo;
+    int found = 0;
+
+    if (*count == 0) {
+        printf("\nNo students found!\n");
+        return;
+    }
+
+    printf("\n========== DELETE STUDENT ==========\n");
+
+    printf("Enter Roll Number of student to delete: ");
+    scanf("%d", &rollNo);
+
+    for (int i = 0; i < *count; i++) {
+
+        if (students[i].rollNo == rollNo) {
+
+            found = 1;
+
+            // Shift all students after the deleted student
+            // one position to the left
+            for (int j = i; j < *count - 1; j++) {
+                students[j] = students[j + 1];
+            }
+
+            (*count)--;
+
+            printf("\nStudent deleted successfully! ✅\n");
+
+            break;
+        }
+    }
+
+    if (found == 0) {
+        printf("\nStudent with Roll Number %d not found.\n", rollNo);
     }
 }
