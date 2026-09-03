@@ -1,6 +1,7 @@
 #include <stdio.h>
 
 #define MAX_STUDENTS 100
+#define SUBJECTS 5
 
 //Structure for storing student information
 
@@ -8,6 +9,11 @@ struct Student {
     int rollNo;
     char name[50];
     int age;
+
+    float marks[SUBJECTS];
+    float total;
+    float percentage;
+    char grade;
 };
 
 //Function Declarations
@@ -16,6 +22,25 @@ void displayStudents(struct Student students[], int count);
 void searchStudent(struct Student students[], int count);
 void updateStudent(struct Student students[], int count);
 void deleteStudent(struct Student students[], int *count);
+void calculateResult(struct Student students[], int count);
+void sortStudents(struct Student students[], int count);
+
+//Calculate Grade
+char getGrade(float percentage) {
+    if (percentage >= 90) {
+        return 'A';
+    } else if (percentage >= 80) {
+        return 'B';
+    } else if (percentage >= 70) {
+        return 'C';
+    } else if (percentage >= 60) {
+        return 'D';
+    } else if (percentage >= 50) {
+        return 'E';
+    } else {
+        return 'F';
+    }
+}
 
 
 int main() {
@@ -35,7 +60,9 @@ int main() {
         printf("3. Search Student\n");
         printf("4. Update Student\n");
         printf("5. Delete Student\n");
-        printf("6. Exit\n");
+        printf("6. Calculate Result\n");
+        printf("7. Sort Students\n");
+        printf("8. Exit\n");
 
         printf("\nEnter your choice: ");
         scanf("%d", &choice);
@@ -61,8 +88,16 @@ int main() {
             case 5:
                 deleteStudent(students, &count);
                 break;
-
+            
             case 6:
+                calculateResult(students, count);
+                break;
+            
+            case 7:
+                sortStudents(students, count);
+                break;
+
+            case 8:
                 printf("\nExiting program...\n");
                 return 0;
 
@@ -253,3 +288,102 @@ void deleteStudent(struct Student students[], int *count) {
         printf("\nStudent with Roll Number %d not found.\n", rollNo);
     }
 }
+
+// FEATURE 1: CALCULATE RESULT
+void calculateResult(struct Student students[], int count) {
+
+    int rollNo;
+
+    if (count == 0) {
+        printf("\nNo students found!\n");
+        return;
+    }
+
+    printf("\n========== STUDENT RESULT ==========\n");
+
+    printf("Enter Roll Number: ");
+    scanf("%d", &rollNo);
+
+    for (int i = 0; i < count; i++) {
+
+        if (students[i].rollNo == rollNo) {
+
+            printf("\n========== RESULT ==========\n");
+
+            printf("Roll Number : %d\n",
+                   students[i].rollNo);
+
+            printf("Name        : %s\n",
+                   students[i].name);
+
+            printf("Total Marks : %.2f / 500\n",
+                   students[i].total);
+
+            printf("Percentage  : %.2f%%\n",
+                   students[i].percentage);
+
+            printf("Grade       : %c\n",
+                   students[i].grade);
+
+            if (students[i].percentage >= 40)
+                printf("Status      : PASS ✅\n");
+            else
+                printf("Status      : FAIL ❌\n");
+
+            return;
+        }
+    }
+
+    printf("\nStudent not found.\n");
+}
+
+
+// FEATURE 2: SORT BY PERCENTAGE
+void sortStudents(struct Student students[], int count) {
+
+    if (count == 0) {
+        printf("\nNo students found!\n");
+        return;
+    }
+
+    struct Student temp;
+
+    // Bubble Sort - highest percentage first
+    for (int i = 0; i < count - 1; i++) {
+
+        for (int j = 0; j < count - i - 1; j++) {
+
+            if (students[j].percentage <
+                students[j + 1].percentage) {
+
+                temp = students[j];
+
+                students[j] = students[j + 1];
+
+                students[j + 1] = temp;
+            }
+        }
+    }
+
+    printf("\n========== RANKING ==========\n");
+
+    for (int i = 0; i < count; i++) {
+
+        printf("\nRank %d\n", i + 1);
+        printf("-------------------------\n");
+
+        printf("Roll Number : %d\n",
+               students[i].rollNo);
+
+        printf("Name        : %s\n",
+               students[i].name);
+
+        printf("Percentage  : %.2f%%\n",
+               students[i].percentage);
+
+        printf("Grade       : %c\n",
+               students[i].grade);
+    }
+
+    printf("\nStudents sorted successfully! ✅\n");
+} 
