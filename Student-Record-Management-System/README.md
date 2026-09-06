@@ -1,26 +1,68 @@
 # Student Record Management System
 
-A beginner-friendly **Student Record Management System built in C**.
-This project allows users to add, view, search, update, delete, calculate results, sort students, save records, and validate user input.
+A console-based **Student Record Management System** developed in C. This project allows users to manage student records, calculate results, search and update students, store records in a file, and generate basic class statistics.
 
-## 🚀 Features
+## 📌 Features
 
-* ✅ Add Student
-* ✅ Display All Students
-* ✅ Search Student by Roll Number
-* ✅ Update Student Information
-* ✅ Delete Student
-* ✅ Calculate Total Marks
-* ✅ Calculate Percentage
-* ✅ Calculate Grade
-* ✅ Display Pass/Fail Status
-* ✅ Sort Students by Percentage
-* ✅ Save Student Records to File
-* ✅ Load Student Records when Program Starts
-* ✅ Input Validation
-* ✅ Prevent Duplicate Roll Numbers
-* ✅ Validate Age
-* ✅ Validate Marks (0–100)
+1. **Add Student**
+
+   * Add a new student with roll number, name, age, and marks.
+   * Prevents duplicate roll numbers.
+
+2. **Display Students**
+
+   * Displays all stored student records.
+
+3. **Search by Roll Number**
+
+   * Find a student using their roll number.
+
+4. **Search by Name**
+
+   * Search students using their name.
+   * Supports partial name searches.
+
+5. **Update Student**
+
+   * Update an existing student's name, age, and marks.
+
+6. **Delete Student**
+
+   * Delete a student record using their roll number.
+
+7. **Calculate Result**
+
+   * Calculates total marks.
+   * Calculates percentage.
+   * Assigns grades.
+   * Displays PASS or FAIL status.
+
+8. **Sort Students**
+
+   * Sorts students according to percentage.
+   * Highest percentage appears first.
+
+9. **Class Statistics**
+
+   * Displays total number of students.
+   * Calculates class average percentage.
+   * Displays the student with the highest percentage.
+   * Displays the student with the lowest percentage.
+
+10. **File Handling**
+
+    * Saves student records to a binary file.
+    * Automatically loads records when the program starts.
+    * Automatically saves records when students are added or updated.
+    * Records are saved in `students.dat`.
+
+11. **Input Validation**
+
+    * Prevents invalid menu choices.
+    * Roll numbers must be positive.
+    * Duplicate roll numbers are prevented.
+    * Age must be between 5 and 100.
+    * Marks must be between 0 and 100.
 
 ## 🛠️ Technologies Used
 
@@ -30,9 +72,9 @@ This project allows users to add, view, search, update, delete, calculate result
 * **Git**
 * **GitHub**
 
-## 📚 Concepts Used
+## 🧠 Concepts Used
 
-This project demonstrates several important C programming concepts:
+This project demonstrates:
 
 * Variables and Data Types
 * Conditional Statements
@@ -46,8 +88,9 @@ This project demonstrates several important C programming concepts:
 * Sorting
 * File Handling
 * Input Validation
+* Basic Statistics
 
-## 📁 Project Structure
+## 📂 Project Structure
 
 ```text
 Student-Record-Management-System/
@@ -58,29 +101,29 @@ Student-Record-Management-System/
 └── students.dat
 ```
 
-> `students.dat` is generated automatically when student records are saved and is ignored by Git.
+> `students.dat` is generated automatically by the program and is ignored by Git.
 
 ## ▶️ How to Run
 
-### 1. Clone the Repository
+### 1. Clone the repository
 
 ```bash
 git clone https://github.com/dushyant-cloud/Student-Record-Management-System.git
 ```
 
-### 2. Open the Project Folder
+### 2. Open the project folder
 
 ```bash
 cd Student-Record-Management-System
 ```
 
-### 3. Compile the Program
+### 3. Compile the program
 
 ```bash
 gcc student_management.c -o student_management
 ```
 
-### 4. Run the Program
+### 4. Run the program
 
 On Windows PowerShell:
 
@@ -88,66 +131,98 @@ On Windows PowerShell:
 .\student_management.exe
 ```
 
+## 📊 Grading System
+
+| Percentage | Grade |
+| ---------: | :---: |
+|    90–100% |   A   |
+|     80–89% |   B   |
+|     70–79% |   C   |
+|     60–69% |   D   |
+|     50–59% |   E   |
+|  Below 50% |   F   |
+
+A student is considered **PASS** when their percentage is **40% or above**.
+
 ## 💾 File Handling
 
-The program uses a binary file named:
+The program uses binary file handling to store student records.
+
+* `fopen()` — Opens the file
+* `fwrite()` — Saves records
+* `fread()` — Loads records
+* `fclose()` — Closes the file
+
+The data is stored in:
 
 ```text
 students.dat
 ```
 
-Student records are saved to this file and automatically loaded when the program starts.
+## 🔎 Searching
 
-This means student data can remain available even after closing the program.
+The program supports two types of student searches:
 
-## 🛡️ Input Validation
+### Roll Number Search
 
-The program checks:
+Searches for an exact roll number.
 
-* Roll number must be positive.
-* Roll numbers cannot be duplicated.
-* Age must be between 5 and 100.
-* Marks must be between 0 and 100.
-* Invalid menu input is rejected.
+### Name Search
 
-## 📊 Grading System
+Allows searching using a complete or partial name.
 
-| Percentage | Grade |
-| ---------- | ----- |
-| 90–100     | A     |
-| 80–89      | B     |
-| 70–79      | C     |
-| 60–69      | D     |
-| 50–59      | E     |
-| Below 50   | F     |
+For example:
 
-## 📈 Sorting
+```text
+Rahul
+```
 
-Students can be sorted according to their percentage using **Bubble Sort**.
+can find:
 
-The student with the highest percentage is displayed first.
+```text
+Rahul Kumar
+Rahul Sharma
+```
 
-## 🔮 Future Improvements
+## 📈 Class Statistics
 
-Planned features for future versions:
+The statistics feature calculates:
 
-* [ ] Student ID validation
-* [ ] Better name input validation
-* [ ] Subject names instead of Subject 1–5
-* [ ] Separate files for different modules
-* [ ] Improved user interface
-* [ ] Statistics such as class average and highest scorer
-* [ ] Export records to text/CSV
-* [ ] Admin login system
+* Total students
+* Class average percentage
+* Highest-performing student
+* Lowest-performing student
+
+## 🔄 Sorting
+
+Students can be sorted by percentage using **Bubble Sort**, with the highest percentage appearing first.
+
+## 🚀 Future Improvements
+
+Possible future features include:
+
+* Student ranking system
+* Pass/Fail statistics
+* Subject-wise statistics
+* Delete all records
+* Exit confirmation
+* Better user interface
+* Login/authentication system
+* Export records to CSV
+* Admin dashboard
 
 ## 📌 Project Status
 
 **Currently under development 🚧**
 
-New features will be added gradually as I continue learning C programming.
+The project already includes core student management, result calculation, file handling, validation, searching, sorting, and statistics features.
 
 ## 👨‍💻 Author
 
 **Dushyant Kumar**
 
-GitHub: [@dushyant-cloud](https://github.com/dushyant-cloud)
+GitHub: `@dushyant-cloud`
+
+---
+
+⭐ If you find this project useful, consider giving the repository a star!
