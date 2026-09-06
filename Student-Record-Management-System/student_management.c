@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #define MAX_STUDENTS 100
 #define SUBJECTS 5
@@ -24,9 +25,10 @@ void updateStudent(struct Student students[], int count);
 void deleteStudent(struct Student students[], int *count);
 void calculateResult(struct Student students[], int count);
 void sortStudents(struct Student students[], int count);
-
 void saveStudents(struct Student students[], int count);
 void loadStudents(struct Student students[], int *count);
+void classStatistics(struct Student students[], int count);
+void searchByName(struct Student students[], int count);
 
 char getGrade(float percentage);
 int rollNumberExists(struct Student students[], int count, int rollNo);
@@ -54,9 +56,11 @@ int main() {
         printf("4. Update Student\n");
         printf("5. Delete Student\n");
         printf("6. Calculate Result\n");
-        printf("7. Sort by Percentage\n");
-        printf("8. Save Records\n");
-        printf("9. Exit\n");
+        printf("7. Sort Students\n");
+        printf("8. Class Statistics\n");
+        printf("9. Search Student by name\n");
+        printf("10. Save Records\n");
+        printf("11. Exit\n");
 
         printf("\nEnter your choice: ");
 
@@ -101,16 +105,24 @@ int main() {
                 break;
 
             case 8:
+                classStatistics(students, count);
+                break;
+            
+            case 9:
+                searchByName(students, count);
+                break;
+
+            case 10:
                 saveStudents(students, count);
                 break;
 
-            case 9:
+            case 11:
                 saveStudents(students, count);
                 printf("\nRecords saved. Exiting program...\n");
                 return 0;
 
             default:
-                printf("\nInvalid choice! Enter 1-9.\n");
+                printf("\nInvalid choice! Enter 1-11.\n");
         }
     }
 
@@ -714,4 +726,96 @@ void loadStudents(struct Student students[], int *count) {
 
     printf("\n%d student record(s) loaded. 📂\n",
            *count);
+}
+
+// CLASS STATISTICS
+void classStatistics(struct Student students[], int count)
+{
+    if (count == 0)
+    {
+        printf("\nNo student records available.\n");
+        return;
+    }
+
+    float totalPercentage = 0;
+    float highest = students[0].percentage;
+    float lowest = students[0].percentage;
+
+    int highestIndex = 0;
+    int lowestIndex = 0;
+
+    for (int i = 0; i < count; i++)
+    {
+        totalPercentage += students[i].percentage;
+
+        if (students[i].percentage > highest)
+        {
+            highest = students[i].percentage;
+            highestIndex = i;
+        }
+
+        if (students[i].percentage < lowest)
+        {
+            lowest = students[i].percentage;
+            lowestIndex = i;
+        }
+    }
+
+    float average = totalPercentage / count;
+
+    printf("\n========== CLASS STATISTICS ==========\n");
+
+    printf("Total Students       : %d\n", count);
+    printf("Class Average        : %.2f%%\n", average);
+
+    printf("\nHighest Percentage\n");
+    printf("Name                 : %s\n", students[highestIndex].name);
+    printf("Roll Number          : %d\n", students[highestIndex].rollNo);
+    printf("Percentage           : %.2f%%\n", students[highestIndex].percentage);
+
+    printf("\nLowest Percentage\n");
+    printf("Name                 : %s\n", students[lowestIndex].name);
+    printf("Roll Number          : %d\n", students[lowestIndex].rollNo);
+    printf("Percentage           : %.2f%%\n", students[lowestIndex].percentage);
+
+    printf("======================================\n");
+}
+
+// NAME SEARCH FUNCTION
+void searchByName(struct Student students[], int count)
+{
+    if (count == 0)
+    {
+        printf("\nNo student records available.\n");
+        return;
+    }
+
+    char searchName[50];
+    int found = 0;
+
+    printf("\nEnter student name to search: ");
+    scanf(" %[^\n]", searchName);
+
+    printf("\n========== SEARCH RESULTS ==========\n");
+
+    for (int i = 0; i < count; i++)
+    {
+        if (strstr(students[i].name, searchName) != NULL)
+        {
+            printf("\nRoll Number : %d\n", students[i].rollNo);
+            printf("Name        : %s\n", students[i].name);
+            printf("Age         : %d\n", students[i].age);
+            printf("Percentage  : %.2f%%\n", students[i].percentage);
+            printf("Grade       : %c\n", students[i].grade);
+
+            found = 1;
+        }
+    }
+
+    if (!found)
+    {
+        printf("No student found with that name.\n");
+    }
+
+    printf("====================================\n");
 }
