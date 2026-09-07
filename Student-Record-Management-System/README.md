@@ -64,6 +64,11 @@ A console-based **Student Record Management System** developed in C. This projec
     * Age must be between 5 and 100.
     * Marks must be between 0 and 100.
 
+12. **Student Ranking"
+
+   * Ranks Student based on their marks. 
+   * Rankinh is Based on percentage 
+
 ## 🛠️ Technologies Used
 
 * **C Programming**
@@ -201,7 +206,6 @@ Students can be sorted by percentage using **Bubble Sort**, with the highest per
 
 Possible future features include:
 
-* Student ranking system
 * Pass/Fail statistics
 * Subject-wise statistics
 * Delete all records
