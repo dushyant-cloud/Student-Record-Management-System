@@ -29,6 +29,7 @@ void saveStudents(struct Student students[], int count);
 void loadStudents(struct Student students[], int *count);
 void classStatistics(struct Student students[], int count);
 void searchByName(struct Student students[], int count);
+void studentRanking(struct Student students[], int count);
 
 char getGrade(float percentage);
 int rollNumberExists(struct Student students[], int count, int rollNo);
@@ -59,8 +60,9 @@ int main() {
         printf("7. Sort Students\n");
         printf("8. Class Statistics\n");
         printf("9. Search Student by name\n");
-        printf("10. Save Records\n");
-        printf("11. Exit\n");
+        printf("10. Student Ranking\n");
+        printf("11. Save Records\n");
+        printf("12. Exit\n");
 
         printf("\nEnter your choice: ");
 
@@ -113,16 +115,20 @@ int main() {
                 break;
 
             case 10:
-                saveStudents(students, count);
+                studentRanking(students, count);
                 break;
 
             case 11:
+                saveStudents(students, count);
+                break;
+            
+            case 12:
                 saveStudents(students, count);
                 printf("\nRecords saved. Exiting program...\n");
                 return 0;
 
             default:
-                printf("\nInvalid choice! Enter 1-11.\n");
+                printf("\nInvalid choice! Enter 1-12.\n");
         }
     }
 
@@ -818,4 +824,57 @@ void searchByName(struct Student students[], int count)
     }
 
     printf("====================================\n");
+}
+
+//STUDENT RANKING FUNCTION
+void studentRanking(struct Student students[], int count)
+{
+    if (count == 0)
+    {
+        printf("\nNo student records available.\n");
+        return;
+    }
+
+    //Create a temporary copy
+    struct Student ranking[MAX_STUDENTS];
+
+    for (int i = 0; i < count; i++)
+    {
+        ranking[i] = students[i];
+    }
+
+    //Sort temporar copy by percentage
+    for (int i = 0; i < count - 1; i++)
+    {
+        for (int j = 0; j < count - i - 1; j++)
+        {
+            if (ranking[j].percentage < ranking[j + 1].percentage)
+            {
+                struct Student temp = ranking[j];
+                ranking[j] = ranking[j + 1];
+                ranking[j + 1] = temp;
+            }
+        }
+    }
+
+    printf("\n========== STUDENT RANKING ==========\n");
+
+    printf("%-6s %-10s %-25s %-12s\n",
+           "Rank",
+           "Roll No",
+           "Name",
+           "Percentage");
+    
+    printf("--------------------------------------------------------\n");
+
+    for (int i = 0; i < count; i++)
+    {
+        printf("%-6d %-10d %-25s %-12.2f%%\n",
+               i + 1,
+               ranking[i].rollNo,
+               ranking[i].name,
+               ranking[i].percentage);
+    }
+
+    printf("\n");
 }
