@@ -29,6 +29,7 @@ void saveStudents(struct Student students[], int count);
 void loadStudents(struct Student students[], int *count);
 void classStatistics(struct Student students[], int count);
 void searchByName(struct Student students[], int count);
+void passFailSummary(struct Student students[], int count);
 void studentRanking(struct Student students[], int count);
 
 char getGrade(float percentage);
@@ -61,8 +62,9 @@ int main() {
         printf("8. Class Statistics\n");
         printf("9. Search Student by name\n");
         printf("10. Student Ranking\n");
-        printf("11. Save Records\n");
-        printf("12. Exit\n");
+        printf("11. Pass/Fail Summary\n");
+        printf("12. Save Records\n");
+        printf("13. Exit\n");
 
         printf("\nEnter your choice: ");
 
@@ -119,10 +121,14 @@ int main() {
                 break;
 
             case 11:
+                passFailSummary(students, count);
+                break;
+
+            case 12:
                 saveStudents(students, count);
                 break;
             
-            case 12:
+            case 13:
                 saveStudents(students, count);
                 printf("\nRecords saved. Exiting program...\n");
                 return 0;
@@ -877,4 +883,42 @@ void studentRanking(struct Student students[], int count)
     }
 
     printf("\n");
+}
+
+// PASS/FAIL SUMMARY
+void passFailSummary(struct Student students[], int count)
+{
+    if (count == 0)
+    {
+        printf("\nNo student records available.\n");
+        return;
+    }
+
+    int passed = 0;
+    int failed = 0;
+
+    for (int i = 0; i < count; i++)
+    {
+        if (students[i].percentage >= 40)
+        {
+            passed++;
+        }
+        else
+        {
+            failed++;
+        }
+    }
+
+    float passPercentage = ((float)passed / count) * 100;
+    float failPercentage = ((float)failed / count) * 100;
+
+    printf("\n========== PASS/FAIL SUMMARY ==========\n");
+    printf("Total Students       : %d\n", count);
+    printf("Passed               : %d (%.2f%%)\n", passed, passPercentage);
+    printf("Failed               : %d (%.2f%%)\n", failed, failPercentage);
+
+    printf("\nPass Percentage      : %.2f%%\n", passPercentage);
+    printf("Fail Percentage      : %.2f%%\n", failPercentage);
+    
+    printf("=======================================\n");
 }
