@@ -1,101 +1,65 @@
 # Student Record Management System
 
-A console-based **Student Record Management System** developed in C. This project allows users to manage student records, calculate results, search and update students, store records in a file, and generate basic class statistics.
+A beginner-friendly **Student Record Management System written in C**.
 
-## 📌 Features
+This project allows users to add, display, search, update, delete, sort, and manage student academic records through a simple menu-driven console application.
 
-1. **Add Student**
+It was developed as a **1st Semester BCA project** to practice core C programming concepts such as structures, arrays, functions, loops, conditional statements, pointers, and file handling.
 
-   * Add a new student with roll number, name, age, and marks.
-   * Prevents duplicate roll numbers.
+---
 
-2. **Display Students**
+## 🚀 Features
 
-   * Displays all stored student records.
+* ➕ Add Student
+* 📋 Display All Students
+* 🔍 Search Student by Roll Number
+* 🔎 Search Student by Name
+* ✏️ Update Student Records
+* 🗑️ Delete Student Records
+* 📊 Calculate Student Result
+* 📈 Sort Students by Percentage
+* 🏆 Student Ranking
+* 📚 Class Statistics
+* ✅ Pass/Fail Summary
+* 💾 Save Student Records
+* 📂 Load Student Records Automatically
+* 🔢 Duplicate Roll Number Prevention
+* ✔️ Input Validation
+* 📊 Automatic Total and Percentage Calculation
+* 🎓 Automatic Grade Calculation
 
-3. **Search by Roll Number**
+---
 
-   * Find a student using their roll number.
+## 🧮 Grading System
 
-4. **Search by Name**
+| Percentage | Grade |
+| ---------- | ----- |
+| 90–100%    | A     |
+| 80–89%     | B     |
+| 70–79%     | C     |
+| 60–69%     | D     |
+| 50–59%     | E     |
+| Below 50%  | F     |
 
-   * Search students using their name.
-   * Supports partial name searches.
+### Pass Criteria
 
-5. **Update Student**
+Students with **40% or above** are considered PASS.
 
-   * Update an existing student's name, age, and marks.
+Students below **40%** are considered FAIL.
 
-6. **Delete Student**
+---
 
-   * Delete a student record using their roll number.
+## 💻 Technologies Used
 
-7. **Calculate Result**
+* **Language:** C
+* **Compiler:** GCC / MinGW
+* **Editor:** Visual Studio Code
+* **Operating System:** Windows
+* **Data Storage:** Binary File Handling
 
-   * Calculates total marks.
-   * Calculates percentage.
-   * Assigns grades.
-   * Displays PASS or FAIL status.
+---
 
-8. **Sort Students**
-
-   * Sorts students according to percentage.
-   * Highest percentage appears first.
-
-9. **Class Statistics**
-
-   * Displays total number of students.
-   * Calculates class average percentage.
-   * Displays the student with the highest percentage.
-   * Displays the student with the lowest percentage.
-
-10. **File Handling**
-
-    * Saves student records to a binary file.
-    * Automatically loads records when the program starts.
-    * Automatically saves records when students are added or updated.
-    * Records are saved in `students.dat`.
-
-11. **Input Validation**
-
-    * Prevents invalid menu choices.
-    * Roll numbers must be positive.
-    * Duplicate roll numbers are prevented.
-    * Age must be between 5 and 100.
-    * Marks must be between 0 and 100.
-
-12. **Student Ranking"
-
-   * Ranks Student based on their marks. 
-   * Rankinh is Based on percentage 
-
-## 🛠️ Technologies Used
-
-* **C Programming**
-* **GCC Compiler**
-* **Visual Studio Code**
-* **Git**
-* **GitHub**
-
-## 🧠 Concepts Used
-
-This project demonstrates:
-
-* Variables and Data Types
-* Conditional Statements
-* Loops
-* Arrays
-* Strings
-* Functions
-* Structures
-* Pointers
-* Searching
-* Sorting
-* File Handling
-* Input Validation
-* Basic Statistics
-
-## 📂 Project Structure
+## 📁 Project Structure
 
 ```text
 Student-Record-Management-System/
@@ -108,7 +72,9 @@ Student-Record-Management-System/
 
 > `students.dat` is generated automatically by the program and is ignored by Git.
 
-## ▶️ How to Run
+---
+
+## ⚙️ How to Run
 
 ### 1. Clone the repository
 
@@ -136,97 +102,165 @@ On Windows PowerShell:
 .\student_management.exe
 ```
 
-## 📊 Grading System
+---
 
-| Percentage | Grade |
-| ---------: | :---: |
-|    90–100% |   A   |
-|     80–89% |   B   |
-|     70–79% |   C   |
-|     60–69% |   D   |
-|     50–59% |   E   |
-|  Below 50% |   F   |
+## 📋 Main Menu
 
-A student is considered **PASS** when their percentage is **40% or above**.
+```text
+========================================
+       STUDENT RECORD MANAGEMENT
+========================================
 
-## 💾 File Handling
+1. Add Student
+2. Display Students
+3. Search Student
+4. Update Student
+5. Delete Student
+6. Calculate Result
+7. Sort Students
+8. Class Statistics
+9. Search Student by name
+10. Student Ranking
+11. Pass/Fail Summary
+12. Save Records
+13. Exit
+```
 
-The program uses binary file handling to store student records.
+---
 
-* `fopen()` — Opens the file
-* `fwrite()` — Saves records
-* `fread()` — Loads records
-* `fclose()` — Closes the file
+## 💾 Data Storage
 
-The data is stored in:
+The program uses **binary file handling** to store student records.
+
+The file used is:
 
 ```text
 students.dat
 ```
 
-## 🔎 Searching
+Records are automatically loaded when the program starts and can be saved using the **Save Records** option.
 
-The program supports two types of student searches:
+---
 
-### Roll Number Search
+## 🛡️ Input Validation
 
-Searches for an exact roll number.
+The program includes several validation checks:
 
-### Name Search
+* Roll number must be positive.
+* Duplicate roll numbers are not allowed.
+* Age must be between 5 and 100.
+* Marks must be between 0 and 100.
+* Invalid menu input is handled.
+* Maximum student capacity is 100.
 
-Allows searching using a complete or partial name.
+---
 
-For example:
+## 📊 Student Information
+
+Each student record contains:
 
 ```text
-Rahul
+Roll Number
+Name
+Age
+Marks for 5 Subjects
+Total Marks
+Percentage
+Grade
 ```
 
-can find:
+The program automatically calculates:
 
 ```text
-Rahul Kumar
-Rahul Sharma
+Total = Sum of all subject marks
+
+Percentage = (Total / 500) × 100
 ```
+
+---
+
+## 🏆 Student Ranking
+
+The Student Ranking feature sorts students according to their percentage and displays their rank, roll number, name, and percentage.
+
+---
 
 ## 📈 Class Statistics
 
-The statistics feature calculates:
+The Class Statistics feature displays:
+
+* Total number of students
+* Class average
+* Highest percentage
+* Student with the highest percentage
+* Lowest percentage
+* Student with the lowest percentage
+
+---
+
+## ✅ Pass/Fail Summary
+
+The Pass/Fail Summary feature provides:
 
 * Total students
-* Class average percentage
-* Highest-performing student
-* Lowest-performing student
+* Number of passed students
+* Number of failed students
+* Pass percentage
+* Fail percentage
 
-## 🔄 Sorting
+The passing criteria is:
 
-Students can be sorted by percentage using **Bubble Sort**, with the highest percentage appearing first.
+```text
+Percentage >= 40 → PASS
+Percentage < 40  → FAIL
+```
 
-## 🚀 Future Improvements
+---
+
+## 🎯 Learning Objectives
+
+This project helped me practice:
+
+* C Structures
+* Arrays
+* Functions
+* Pointers
+* Loops
+* Conditional Statements
+* String Handling
+* Searching
+* Sorting
+* File Handling
+* Input Validation
+* Menu-driven Programming
+* Basic Data Management
+
+---
+
+## 🔮 Future Improvements
 
 Possible future features include:
 
-* Pass/Fail statistics
-* Subject-wise statistics
-* Delete all records
+* Delete all records with confirmation
 * Exit confirmation
-* Better user interface
-* Login/authentication system
-* Export records to CSV
-* Admin dashboard
+* Case-insensitive name search
+* Better ranking with tied ranks
+* Subject-wise statistics
+* Attendance management
+* Export records to text/CSV
+* Password-protected administration
+* Improved console UI
 
-## 📌 Project Status
-
-**Currently under development 🚧**
-
-The project already includes core student management, result calculation, file handling, validation, searching, sorting, and statistics features.
+---
 
 ## 👨‍💻 Author
 
 **Dushyant Kumar**
 
-GitHub: `@dushyant-cloud`
+BCA — Cloud Computing & Virtualization
 
 ---
 
-⭐ If you find this project useful, consider giving the repository a star!
+## 📜 License
+
+This project is created for educational and portfolio purposes.
