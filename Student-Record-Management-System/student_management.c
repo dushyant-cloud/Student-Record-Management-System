@@ -31,6 +31,7 @@ void classStatistics(struct Student students[], int count);
 void searchByName(struct Student students[], int count);
 void passFailSummary(struct Student students[], int count);
 void studentRanking(struct Student students[], int count);
+void deleteAllStudents(struct Student students[], int *count);
 
 char getGrade(float percentage);
 int rollNumberExists(struct Student students[], int count, int rollNo);
@@ -63,8 +64,9 @@ int main() {
         printf("9. Search Student by name\n");
         printf("10. Student Ranking\n");
         printf("11. Pass/Fail Summary\n");
-        printf("12. Save Records\n");
-        printf("13. Exit\n");
+        printf("12. Delete All Students\n");
+        printf("13. Save Records\n");
+        printf("14. Exit\n");
 
         printf("\nEnter your choice: ");
 
@@ -125,16 +127,20 @@ int main() {
                 break;
 
             case 12:
-                saveStudents(students, count);
+                deleteAllStudents(students, &count);
                 break;
             
             case 13:
+                saveStudents(students, count);
+                break;
+            
+            case 14:
                 saveStudents(students, count);
                 printf("\nRecords saved. Exiting program...\n");
                 return 0;
 
             default:
-                printf("\nInvalid choice! Enter 1-12.\n");
+                printf("\nInvalid choice! Enter 1-14.\n");
         }
     }
 
@@ -921,4 +927,36 @@ void passFailSummary(struct Student students[], int count)
     printf("Fail Percentage      : %.2f%%\n", failPercentage);
     
     printf("=======================================\n");
+}
+
+// DELETE ALL STUDENTS
+void deleteAllStudents(struct Student students[], int *count)
+{
+    if (*count == 0)
+    {
+        printf("\nNo student records available!\n");
+        return;
+    }
+
+    char confirmation;
+
+    printf("\n========== DELETE ALL RECORDS ==========\n");
+
+    printf("WARNING: This will delete ALL %d student records!\n", *count);
+    printf("Are you sure? (Y/N): ");
+
+    scanf(" %c", &confirmation);
+
+    if (confirmation == 'Y' || confirmation == 'y')
+    {
+        *count = 0;
+
+        saveStudents(students, *count);
+
+        printf("\nAll student records have been deleted successfully! 🗑️\n");
+    }
+    else
+    {
+        printf("\nDelete operation cancelled.\n");
+    }
 }
