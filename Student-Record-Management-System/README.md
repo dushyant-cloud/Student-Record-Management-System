@@ -2,9 +2,7 @@
 
 A beginner-friendly **Student Record Management System written in C**.
 
-This project allows users to add, display, search, update, delete, sort, and manage student academic records through a simple menu-driven console application.
-
-It was developed as a **1st Semester BCA project** to practice core C programming concepts such as structures, arrays, functions, loops, conditional statements, pointers, and file handling.
+This is a menu-driven console application developed as a **1st Semester BCA project** to practice core C programming concepts such as structures, arrays, functions, loops, pointers, sorting, searching, input validation, and file handling.
 
 ---
 
@@ -15,7 +13,8 @@ It was developed as a **1st Semester BCA project** to practice core C programmin
 * 🔍 Search Student by Roll Number
 * 🔎 Search Student by Name
 * ✏️ Update Student Records
-* 🗑️ Delete Student Records
+* 🗑️ Delete Individual Student
+* 🧹 Delete All Student Records with Confirmation
 * 📊 Calculate Student Result
 * 📈 Sort Students by Percentage
 * 🏆 Student Ranking
@@ -70,7 +69,7 @@ Student-Record-Management-System/
 └── students.dat
 ```
 
-> `students.dat` is generated automatically by the program and is ignored by Git.
+> `students.dat` is generated automatically and is ignored by Git.
 
 ---
 
@@ -122,9 +121,30 @@ On Windows PowerShell:
 9. Search Student by name
 10. Student Ranking
 11. Pass/Fail Summary
-12. Save Records
-13. Exit
+12. Delete All Records
+13. Save Records
+14. Exit
 ```
+
+---
+
+## 🧹 Delete All Records
+
+The **Delete All Records** feature removes every student record from the system.
+
+For safety, the program asks for confirmation before performing the operation.
+
+Example:
+
+```text
+WARNING: This will delete ALL 5 student records!
+Are you sure? (Y/N):
+```
+
+* `Y` → Delete all records
+* `N` → Cancel the operation
+
+The program also saves the updated record count so that deleted records do not reappear after restarting the application.
 
 ---
 
@@ -138,20 +158,23 @@ The file used is:
 students.dat
 ```
 
-Records are automatically loaded when the program starts and can be saved using the **Save Records** option.
+Records are automatically loaded when the program starts.
+
+Student data can also be manually saved through the **Save Records** option.
 
 ---
 
 ## 🛡️ Input Validation
 
-The program includes several validation checks:
+The program includes:
 
-* Roll number must be positive.
-* Duplicate roll numbers are not allowed.
-* Age must be between 5 and 100.
-* Marks must be between 0 and 100.
-* Invalid menu input is handled.
-* Maximum student capacity is 100.
+* Positive roll number validation
+* Duplicate roll number prevention
+* Age validation
+* Marks validation
+* Menu input validation
+* Maximum student capacity of 100
+* Confirmation before deleting all records
 
 ---
 
@@ -181,7 +204,14 @@ Percentage = (Total / 500) × 100
 
 ## 🏆 Student Ranking
 
-The Student Ranking feature sorts students according to their percentage and displays their rank, roll number, name, and percentage.
+Students can be ranked according to their percentage.
+
+The ranking displays:
+
+* Rank
+* Roll Number
+* Name
+* Percentage
 
 ---
 
@@ -192,15 +222,15 @@ The Class Statistics feature displays:
 * Total number of students
 * Class average
 * Highest percentage
-* Student with the highest percentage
+* Student with highest percentage
 * Lowest percentage
-* Student with the lowest percentage
+* Student with lowest percentage
 
 ---
 
 ## ✅ Pass/Fail Summary
 
-The Pass/Fail Summary feature provides:
+The Pass/Fail Summary feature displays:
 
 * Total students
 * Number of passed students
@@ -208,7 +238,7 @@ The Pass/Fail Summary feature provides:
 * Pass percentage
 * Fail percentage
 
-The passing criteria is:
+Passing criteria:
 
 ```text
 Percentage >= 40 → PASS
@@ -239,17 +269,17 @@ This project helped me practice:
 
 ## 🔮 Future Improvements
 
-Possible future features include:
+Possible future features:
 
-* Delete all records with confirmation
 * Exit confirmation
 * Case-insensitive name search
 * Better ranking with tied ranks
 * Subject-wise statistics
 * Attendance management
-* Export records to text/CSV
+* Export records to CSV
 * Password-protected administration
 * Improved console UI
+* Student record backup and restore
 
 ---
 
