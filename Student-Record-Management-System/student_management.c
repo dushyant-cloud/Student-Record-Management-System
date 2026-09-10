@@ -135,9 +135,34 @@ int main() {
                 break;
             
             case 14:
-                saveStudents(students, count);
-                printf("\nRecords saved. Exiting program...\n");
-                return 0;
+            {
+    char confirmation;
+
+    printf("\n========== EXIT PROGRAM ==========\n");
+    printf("Are you sure you want to exit? (Y/N): ");
+    scanf(" %c", &confirmation);
+
+    if (confirmation == 'Y' || confirmation == 'y')
+    {
+        saveStudents(students, count);
+
+        printf("\nRecords saved successfully.\n");
+        printf("Exiting program...\n");
+
+        return 0;
+    }
+    else if (confirmation == 'N' || confirmation == 'n')
+    {
+        printf("\nExit cancelled. Returning to main menu...\n");
+    }
+    else
+    {
+        printf("\nInvalid input! Please enter Y or N.\n");
+    }
+
+    break;
+}
+                
 
             default:
                 printf("\nInvalid choice! Enter 1-14.\n");
