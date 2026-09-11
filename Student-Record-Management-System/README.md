@@ -1,9 +1,10 @@
 # Student Record Management System
 
 A beginner-friendly **Student Record Management System built using C**.
+
 This project allows users to add, manage, search, update, delete, and analyze student records through a simple console-based interface.
 
-The project is designed to practice fundamental C programming concepts such as **structures, arrays, functions, loops, conditional statements, file handling, sorting, and input validation**.
+The project is designed to practice fundamental C programming concepts such as **structures, arrays, functions, loops, conditional statements, file handling, sorting, string handling, and input validation**.
 
 ---
 
@@ -18,6 +19,7 @@ The project is designed to practice fundamental C programming concepts such as *
 * 📈 Sort Students by Percentage
 * 📊 Class Statistics
 * 🔎 Search Student by Name
+* 🔤 Case-Insensitive Name Search
 * 🏆 Student Ranking
 * ✅ Pass/Fail Summary
 * 🗑️ Delete All Records with Confirmation
@@ -67,6 +69,46 @@ The Class Statistics feature displays:
 * Student with the highest percentage
 * Lowest percentage
 * Student with the lowest percentage
+
+---
+
+## 🔎 Search Student by Name
+
+Students can be searched using their name.
+
+The search supports **partial matching**.
+
+For example:
+
+```text
+Search: rah
+```
+
+can find:
+
+```text
+Rahul Sharma
+Rahul Verma
+```
+
+---
+
+## 🔤 Case-Insensitive Name Search
+
+The name search is case-insensitive.
+
+This means:
+
+```text
+rahul
+RAHUL
+Rahul
+RaHuL
+```
+
+can all find the same student.
+
+The feature converts the search text and student names to lowercase before performing the search.
 
 ---
 
@@ -206,6 +248,10 @@ The program validates user input to prevent common errors.
 
 * Only valid menu numbers are accepted
 
+### Exit
+
+* Requires confirmation before closing the program
+
 ---
 
 ## 🛠️ Technologies Used
@@ -214,6 +260,7 @@ The program validates user input to prevent common errors.
 * Structures
 * Arrays
 * Functions
+* Pointers
 * Loops
 * Conditional Statements
 * File Handling
@@ -291,6 +338,7 @@ This project helped me practice:
 * Basic statistics
 * Temporary data copies
 * Confirmation-based operations
+* Case-insensitive string searching
 * Building and maintaining a GitHub project
 
 ---
@@ -300,7 +348,6 @@ This project helped me practice:
 Possible future features include:
 
 * 🔢 Tied ranking system
-* 🔍 Case-insensitive name search
 * 📚 Subject-wise statistics
 * 📅 Attendance management
 * 📄 CSV export
