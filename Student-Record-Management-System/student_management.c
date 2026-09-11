@@ -824,32 +824,60 @@ void classStatistics(struct Student students[], int count)
     printf("======================================\n");
 }
 
-// NAME SEARCH FUNCTION
+// SEARCH STUDENT BY NAME - CASE INSENSITIVE
 void searchByName(struct Student students[], int count)
 {
     if (count == 0)
     {
-        printf("\nNo student records available.\n");
+        printf("\nNo student records available!\n");
         return;
     }
 
     char searchName[50];
     int found = 0;
 
-    printf("\nEnter student name to search: ");
+    printf("\n========== SEARCH STUDENT BY NAME ==========\n");
+    printf("Enter student name: ");
+
     scanf(" %[^\n]", searchName);
 
-    printf("\n========== SEARCH RESULTS ==========\n");
+    // Convert search name to lowercase
+    for (int i = 0; searchName[i] != '\0'; i++)
+    {
+        if (searchName[i] >= 'A' && searchName[i] <= 'Z')
+        {
+            searchName[i] = searchName[i] + 32;
+        }
+    }
+
+    printf("\nSearch Results:\n");
+    printf("-----------------------------------------------\n");
 
     for (int i = 0; i < count; i++)
     {
-        if (strstr(students[i].name, searchName) != NULL)
+        char studentName[50];
+
+        strcpy(studentName, students[i].name);
+
+        // Convert student name to lowercase
+        for (int j = 0; studentName[j] != '\0'; j++)
         {
-            printf("\nRoll Number : %d\n", students[i].rollNo);
+            if (studentName[j] >= 'A' && studentName[j] <= 'Z')
+            {
+                studentName[j] = studentName[j] + 32;
+            }
+        }
+
+        // Partial name matching
+        if (strstr(studentName, searchName) != NULL)
+        {
+            printf("Roll No     : %d\n", students[i].rollNo);
             printf("Name        : %s\n", students[i].name);
             printf("Age         : %d\n", students[i].age);
             printf("Percentage  : %.2f%%\n", students[i].percentage);
             printf("Grade       : %c\n", students[i].grade);
+
+            printf("-----------------------------------------------\n");
 
             found = 1;
         }
@@ -857,10 +885,8 @@ void searchByName(struct Student students[], int count)
 
     if (!found)
     {
-        printf("No student found with that name.\n");
+        printf("No student found with name containing \"%s\".\n", searchName);
     }
-
-    printf("====================================\n");
 }
 
 //STUDENT RANKING FUNCTION
