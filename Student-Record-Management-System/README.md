@@ -21,6 +21,7 @@ The project is designed to practice fundamental C programming concepts such as *
 * 🔎 Search Student by Name
 * 🔤 Case-Insensitive Name Search
 * 🏆 Student Ranking
+* 🥇 Tied Student Ranking
 * ✅ Pass/Fail Summary
 * 🗑️ Delete All Records with Confirmation
 * 💾 Save Records
@@ -97,7 +98,7 @@ Rahul Verma
 
 The name search is case-insensitive.
 
-This means:
+For example:
 
 ```text
 rahul
@@ -108,7 +109,7 @@ RaHuL
 
 can all find the same student.
 
-The feature converts the search text and student names to lowercase before performing the search.
+The search converts the search text and student names to lowercase before performing the search.
 
 ---
 
@@ -123,12 +124,47 @@ Example:
 
 Rank   Roll No    Name                      Percentage
 -------------------------------------------------------
-1      103        Rahul                     91.20%
-2      101        Aman                      84.60%
-3      102        Rohit                     76.40%
+1      103        Rahul                     95.00%
+2      101        Aman                      90.00%
+3      102        Rohit                     82.00%
 ```
 
 The ranking uses a temporary copy of the records so that viewing rankings does not permanently change the original record order.
+
+---
+
+## 🥇 Tied Student Ranking
+
+The ranking system supports **tied ranks**.
+
+Students with the same percentage receive the same rank.
+
+For example:
+
+```text
+Percentage
+95%
+90%
+90%
+80%
+80%
+70%
+```
+
+The ranking becomes:
+
+```text
+Rank   Percentage
+-----------------
+1      95%
+2      90%
+2      90%
+4      80%
+4      80%
+6      70%
+```
+
+This uses **competition ranking**, where the next rank accounts for the number of students who share the previous rank.
 
 ---
 
@@ -339,6 +375,8 @@ This project helped me practice:
 * Temporary data copies
 * Confirmation-based operations
 * Case-insensitive string searching
+* Ranking algorithms
+* Handling tied rankings
 * Building and maintaining a GitHub project
 
 ---
@@ -347,7 +385,6 @@ This project helped me practice:
 
 Possible future features include:
 
-* 🔢 Tied ranking system
 * 📚 Subject-wise statistics
 * 📅 Attendance management
 * 📄 CSV export
