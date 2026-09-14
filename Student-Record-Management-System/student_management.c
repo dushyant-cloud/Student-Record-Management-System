@@ -32,6 +32,7 @@ void searchByName(struct Student students[], int count);
 void passFailSummary(struct Student students[], int count);
 void studentRanking(struct Student students[], int count);
 void deleteAllStudents(struct Student students[], int *count);
+void subjectStatistics(struct Student students[], int count);
 
 char getGrade(float percentage);
 int rollNumberExists(struct Student students[], int count, int rollNo);
@@ -65,8 +66,9 @@ int main() {
         printf("10. Student Ranking\n");
         printf("11. Pass/Fail Summary\n");
         printf("12. Delete All Students\n");
-        printf("13. Save Records\n");
-        printf("14. Exit\n");
+        printf("13. Subject-Wise Statistics\n");
+        printf("14. Save Records\n");
+        printf("15. Exit\n");
 
         printf("\nEnter your choice: ");
 
@@ -129,12 +131,16 @@ int main() {
             case 12:
                 deleteAllStudents(students, &count);
                 break;
-            
-            case 13:
-                saveStudents(students, count);
+
+             case 13:
+                subjectStatistics(students, count);
                 break;
             
             case 14:
+                saveStudents(students, count);
+                break;
+            
+            case 15:
             {
     char confirmation;
 
@@ -1021,4 +1027,62 @@ void deleteAllStudents(struct Student students[], int *count)
     {
         printf("\nDelete operation cancelled.\n");
     }
+}
+
+// SUBJECT-WISE STATISTICS
+void subjectStatistics(struct Student students[], int count)
+{
+    if (count == 0)
+    {
+        printf("\nNo student records available!\n");
+        return;
+    }
+
+    printf("\n========== SUBJECT-WISE STATISTICS ==========\n");
+
+    for (int subject = 0; subject < SUBJECTS; subject++)
+    {
+        float totalMarks = 0;
+        float highestMarks = students[0].marks[subject];
+        float lowestMarks = students[0].marks[subject];
+
+        int highestStudent = 0;
+        int lowestStudent = 0;
+
+        // Calculate total, highest and lowest marks
+        for (int i = 0; i < count; i++)
+        {
+            totalMarks += students[i].marks[subject];
+
+            if (students[i].marks[subject] > highestMarks)
+            {
+                highestMarks = students[i].marks[subject];
+                highestStudent = i;
+            }
+
+            if (students[i].marks[subject] < lowestMarks)
+            {
+                lowestMarks = students[i].marks[subject];
+                lowestStudent = i;
+            }
+        }
+
+        float average = totalMarks / count;
+
+        printf("\n---------- Subject %d ----------\n", subject + 1);
+
+        printf("Average Marks : %.2f\n", average);
+
+        printf("Highest Marks : %.2f\n", highestMarks);
+        printf("Highest Scorer: %s (Roll No: %d)\n",
+               students[highestStudent].name,
+               students[highestStudent].rollNo);
+
+        printf("Lowest Marks  : %.2f\n", lowestMarks);
+        printf("Lowest Scorer : %s (Roll No: %d)\n",
+               students[lowestStudent].name,
+               students[lowestStudent].rollNo);
+    }
+
+    printf("\n=============================================\n");
 }
