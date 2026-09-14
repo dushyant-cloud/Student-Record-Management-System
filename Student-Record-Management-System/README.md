@@ -4,7 +4,7 @@ A beginner-friendly **Student Record Management System built using C**.
 
 This project allows users to add, manage, search, update, delete, and analyze student records through a simple console-based interface.
 
-The project is designed to practice fundamental C programming concepts such as **structures, arrays, functions, loops, conditional statements, file handling, sorting, string handling, and input validation**.
+The project is designed to practice fundamental C programming concepts such as **structures, arrays, functions, loops, conditional statements, file handling, sorting, string handling, statistics, and input validation**.
 
 ---
 
@@ -24,6 +24,7 @@ The project is designed to practice fundamental C programming concepts such as *
 * 🥇 Tied Student Ranking
 * ✅ Pass/Fail Summary
 * 🗑️ Delete All Records with Confirmation
+* 📚 Subject-Wise Statistics
 * 💾 Save Records
 * 🚪 Exit Confirmation
 * 📁 Automatic Data Loading at Startup
@@ -168,6 +169,44 @@ This uses **competition ranking**, where the next rank accounts for the number o
 
 ---
 
+## 📚 Subject-Wise Statistics
+
+The Subject-Wise Statistics feature analyzes each subject independently.
+
+For every subject, the program displays:
+
+* Average marks
+* Highest marks
+* Highest-scoring student
+* Lowest marks
+* Lowest-scoring student
+
+Example:
+
+```text
+========== SUBJECT-WISE STATISTICS ==========
+
+---------- Subject 1 ----------
+Average Marks : 78.50
+Highest Marks : 95.00
+Highest Scorer: Rahul (Roll No: 101)
+Lowest Marks  : 61.00
+Lowest Scorer : Aman (Roll No: 102)
+
+---------- Subject 2 ----------
+Average Marks : 82.33
+Highest Marks : 98.00
+Highest Scorer: Rohit (Roll No: 103)
+Lowest Marks  : 65.00
+Lowest Scorer : Aman (Roll No: 102)
+
+=============================================
+```
+
+The statistics are calculated dynamically from the stored student records.
+
+---
+
 ## ✅ Pass/Fail Summary
 
 The Pass/Fail Summary feature displays:
@@ -237,8 +276,9 @@ The current menu contains:
 10. Student Ranking
 11. Pass/Fail Summary
 12. Delete All Records
-13. Save Records
-14. Exit
+13. Subject-Wise Statistics
+14. Save Records
+15. Exit
 ```
 
 ---
@@ -303,6 +343,7 @@ The program validates user input to prevent common errors.
 * Bubble Sort
 * String Handling
 * Input Validation
+* Basic Statistical Calculations
 
 ---
 
@@ -372,6 +413,7 @@ This project helped me practice:
 * Data validation
 * Menu-driven programming
 * Basic statistics
+* Subject-wise data analysis
 * Temporary data copies
 * Confirmation-based operations
 * Case-insensitive string searching
@@ -385,7 +427,6 @@ This project helped me practice:
 
 Possible future features include:
 
-* 📚 Subject-wise statistics
 * 📅 Attendance management
 * 📄 CSV export
 * 🔐 Password protection
@@ -394,6 +435,7 @@ Possible future features include:
 * 📊 More detailed performance reports
 * 📝 Student attendance percentage
 * 📂 Separate files for different classes
+* 📈 Performance comparison between subjects
 
 ---
 
