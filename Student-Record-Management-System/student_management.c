@@ -889,31 +889,33 @@ void searchByName(struct Student students[], int count)
     }
 }
 
-//STUDENT RANKING FUNCTION
+// STUDENT RANKING WITH TIED RANKS
 void studentRanking(struct Student students[], int count)
 {
     if (count == 0)
     {
-        printf("\nNo student records available.\n");
+        printf("\nNo student records available!\n");
         return;
     }
 
-    //Create a temporary copy
     struct Student ranking[MAX_STUDENTS];
 
+    // Copy original records
     for (int i = 0; i < count; i++)
     {
         ranking[i] = students[i];
     }
 
-    //Sort temporar copy by percentage
+    // Sort students by percentage in descending order
     for (int i = 0; i < count - 1; i++)
     {
         for (int j = 0; j < count - i - 1; j++)
         {
             if (ranking[j].percentage < ranking[j + 1].percentage)
             {
-                struct Student temp = ranking[j];
+                struct Student temp;
+
+                temp = ranking[j];
                 ranking[j] = ranking[j + 1];
                 ranking[j + 1] = temp;
             }
@@ -927,19 +929,28 @@ void studentRanking(struct Student students[], int count)
            "Roll No",
            "Name",
            "Percentage");
-    
-    printf("--------------------------------------------------------\n");
+
+    printf("-------------------------------------------------------\n");
+
+    int rank = 1;
 
     for (int i = 0; i < count; i++)
     {
-        printf("%-6d %-10d %-25s %-12.2f%%\n",
-               i + 1,
+        // If percentage is different from previous student,
+        // rank becomes the current position
+        if (i > 0 && ranking[i].percentage != ranking[i - 1].percentage)
+        {
+            rank = i + 1;
+        }
+
+        printf("%-6d %-10d %-25s %.2f%%\n",
+               rank,
                ranking[i].rollNo,
                ranking[i].name,
                ranking[i].percentage);
     }
 
-    printf("\n");
+    printf("=======================================================\n");
 }
 
 // PASS/FAIL SUMMARY
