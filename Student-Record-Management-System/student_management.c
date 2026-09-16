@@ -15,6 +15,10 @@ struct Student {
     float total;
     float percentage;
     char grade;
+
+    int totalClasses;
+    int attendedClasses;
+    float attendancePercentage;
 };
 
 // Function declarations
@@ -29,10 +33,8 @@ void saveStudents(struct Student students[], int count);
 void loadStudents(struct Student students[], int *count);
 void classStatistics(struct Student students[], int count);
 void searchByName(struct Student students[], int count);
-void passFailSummary(struct Student students[], int count);
-void studentRanking(struct Student students[], int count);
-void deleteAllStudents(struct Student students[], int *count);
-void subjectStatistics(struct Student students[], int count);
+void updateAttendance(struct Student students[], int count);
+void attendanceReport(struct Student students[], int count);
 
 char getGrade(float percentage);
 int rollNumberExists(struct Student students[], int count, int rollNo);
@@ -63,12 +65,10 @@ int main() {
         printf("7. Sort Students\n");
         printf("8. Class Statistics\n");
         printf("9. Search Student by name\n");
-        printf("10. Student Ranking\n");
-        printf("11. Pass/Fail Summary\n");
-        printf("12. Delete All Students\n");
-        printf("13. Subject-Wise Statistics\n");
-        printf("14. Save Records\n");
-        printf("15. Exit\n");
+        printf("10. Update Attendance\n");
+        printf("11. Attendance Report\n");
+        printf("12. Save Records\n");
+        printf("13. Exit\n");
 
         printf("\nEnter your choice: ");
 
@@ -115,63 +115,47 @@ int main() {
             case 8:
                 classStatistics(students, count);
                 break;
-            
+
             case 9:
                 searchByName(students, count);
                 break;
 
             case 10:
-                studentRanking(students, count);
+                updateAttendance(students, count);
                 break;
 
             case 11:
-                passFailSummary(students, count);
+                attendanceReport(students, count);
                 break;
 
             case 12:
-                deleteAllStudents(students, &count);
-                break;
-
-             case 13:
-                subjectStatistics(students, count);
-                break;
-            
-            case 14:
                 saveStudents(students, count);
                 break;
-            
-            case 15:
-            {
-    char confirmation;
 
-    printf("\n========== EXIT PROGRAM ==========\n");
-    printf("Are you sure you want to exit? (Y/N): ");
-    scanf(" %c", &confirmation);
+            case 13: {
+                char confirmation;
 
-    if (confirmation == 'Y' || confirmation == 'y')
-    {
-        saveStudents(students, count);
+                printf("\n========== EXIT PROGRAM ==========\n");
+                printf("Are you sure you want to exit? (Y/N): ");
+                scanf(" %c", &confirmation);
 
-        printf("\nRecords saved successfully.\n");
-        printf("Exiting program...\n");
+                if (confirmation == 'Y' || confirmation == 'y') {
+                    saveStudents(students, count);
+                    printf("\nRecords saved. Exiting program...\n");
+                    return 0;
+                }
+                else if (confirmation == 'N' || confirmation == 'n') {
+                    printf("\nExit cancelled. Returning to main menu...\n");
+                }
+                else {
+                    printf("\nInvalid input! Please enter Y or N.\n");
+                }
 
-        return 0;
-    }
-    else if (confirmation == 'N' || confirmation == 'n')
-    {
-        printf("\nExit cancelled. Returning to main menu...\n");
-    }
-    else
-    {
-        printf("\nInvalid input! Please enter Y or N.\n");
-    }
-
-    break;
-}
-                
+                break;
+            }
 
             default:
-                printf("\nInvalid choice! Enter 1-14.\n");
+                printf("\nInvalid choice! Enter 1-13.\n");
         }
     }
 
@@ -230,18 +214,14 @@ void addStudent(struct Student students[], int *count) {
     while (1) {
 
         printf("Enter Roll Number: ");
-
         if (scanf("%d", &students[*count].rollNo) != 1) {
 
             printf("Invalid input! Enter a number.\n");
-
             while (getchar() != '\n');
-
             continue;
         }
 
         if (students[*count].rollNo <= 0) {
-
             printf("Roll number must be positive.\n");
             continue;
         }
@@ -261,20 +241,17 @@ void addStudent(struct Student students[], int *count) {
 
     // Name
     printf("Enter Name: ");
-    scanf(" %[^\n]", students[*count].name);
+    scanf(" %49[^\n]", students[*count].name);
 
 
     // Age validation
     while (1) {
 
         printf("Enter Age: ");
-
         if (scanf("%d", &students[*count].age) != 1) {
 
             printf("Invalid input! Enter a number.\n");
-
             while (getchar() != '\n');
-
             continue;
         }
 
@@ -299,14 +276,11 @@ void addStudent(struct Student students[], int *count) {
         while (1) {
 
             printf("Subject %d: ", i + 1);
-
             if (scanf("%f",
                       &students[*count].marks[i]) != 1) {
 
                 printf("Invalid input! Enter a number.\n");
-
                 while (getchar() != '\n');
-
                 continue;
             }
 
@@ -330,6 +304,55 @@ void addStudent(struct Student students[], int *count) {
 
     students[*count].grade =
         getGrade(students[*count].percentage);
+
+
+    // Attendance
+    printf("\n========== ATTENDANCE ==========\n");
+
+    while (1) {
+        printf("Enter Total Classes: ");
+
+        if (scanf("%d", &students[*count].totalClasses) != 1) {
+            printf("Invalid input! Enter a number.\n");
+            while (getchar() != '\n');
+            continue;
+        }
+
+        if (students[*count].totalClasses < 0) {
+            printf("Total classes cannot be negative.\n");
+            continue;
+        }
+
+        break;
+    }
+
+    while (1) {
+        printf("Enter Classes Attended: ");
+
+        if (scanf("%d", &students[*count].attendedClasses) != 1) {
+            printf("Invalid input! Enter a number.\n");
+            while (getchar() != '\n');
+            continue;
+        }
+
+        if (students[*count].attendedClasses < 0 ||
+            students[*count].attendedClasses > students[*count].totalClasses) {
+            printf("Attended classes must be between 0 and total classes.\n");
+            continue;
+        }
+
+        break;
+    }
+
+    if (students[*count].totalClasses > 0) {
+        students[*count].attendancePercentage =
+            ((float)students[*count].attendedClasses /
+             students[*count].totalClasses) * 100;
+    }
+    else {
+        students[*count].attendancePercentage = 0;
+    }
+
 
     (*count)++;
 
@@ -381,6 +404,11 @@ void displayStudents(struct Student students[], int count) {
 
         printf("Grade       : %c\n",
                students[i].grade);
+
+        printf("Attendance  : %.2f%% (%d/%d)\n",
+               students[i].attendancePercentage,
+               students[i].attendedClasses,
+               students[i].totalClasses);
     }
 }
 
@@ -403,9 +431,7 @@ void searchStudent(struct Student students[], int count) {
     if (scanf("%d", &rollNo) != 1) {
 
         printf("Invalid input!\n");
-
         while (getchar() != '\n');
-
         return;
     }
 
@@ -434,6 +460,11 @@ void searchStudent(struct Student students[], int count) {
             printf("Grade       : %c\n",
                    students[i].grade);
 
+            printf("Attendance  : %.2f%% (%d/%d)\n",
+                   students[i].attendancePercentage,
+                   students[i].attendedClasses,
+                   students[i].totalClasses);
+
             return;
         }
     }
@@ -460,9 +491,7 @@ void updateStudent(struct Student students[], int count) {
     if (scanf("%d", &rollNo) != 1) {
 
         printf("Invalid input!\n");
-
         while (getchar() != '\n');
-
         return;
     }
 
@@ -476,7 +505,7 @@ void updateStudent(struct Student students[], int count) {
                    students[i].name);
 
             printf("Enter New Name: ");
-            scanf(" %[^\n]", students[i].name);
+            scanf(" %49[^\n]", students[i].name);
 
 
             while (1) {
@@ -487,9 +516,7 @@ void updateStudent(struct Student students[], int count) {
                           &students[i].age) != 1) {
 
                     printf("Invalid input!\n");
-
                     while (getchar() != '\n');
-
                     continue;
                 }
 
@@ -518,9 +545,7 @@ void updateStudent(struct Student students[], int count) {
                               &students[i].marks[j]) != 1) {
 
                         printf("Invalid input!\n");
-
                         while (getchar() != '\n');
-
                         continue;
                     }
 
@@ -575,9 +600,7 @@ void deleteStudent(struct Student students[], int *count) {
     if (scanf("%d", &rollNo) != 1) {
 
         printf("Invalid input!\n");
-
         while (getchar() != '\n');
-
         return;
     }
 
@@ -586,7 +609,6 @@ void deleteStudent(struct Student students[], int *count) {
         if (students[i].rollNo == rollNo) {
 
             for (int j = i; j < *count - 1; j++) {
-
                 students[j] = students[j + 1];
             }
 
@@ -622,9 +644,7 @@ void calculateResult(struct Student students[], int count) {
     if (scanf("%d", &rollNo) != 1) {
 
         printf("Invalid input!\n");
-
         while (getchar() != '\n');
-
         return;
     }
 
@@ -654,6 +674,9 @@ void calculateResult(struct Student students[], int count) {
             else
                 printf("Status      : FAIL ❌\n");
 
+            printf("Attendance  : %.2f%%\n",
+                   students[i].attendancePercentage);
+
             return;
         }
     }
@@ -681,9 +704,7 @@ void sortStudents(struct Student students[], int count) {
                 students[j + 1].percentage) {
 
                 temp = students[j];
-
                 students[j] = students[j + 1];
-
                 students[j + 1] = temp;
             }
         }
@@ -747,12 +768,15 @@ void loadStudents(struct Student students[], int *count) {
     file = fopen(FILE_NAME, "rb");
 
     if (file == NULL) {
-
         // File doesn't exist yet
         return;
     }
 
-    fread(count, sizeof(int), 1, file);
+    if (fread(count, sizeof(int), 1, file) != 1) {
+        *count = 0;
+        fclose(file);
+        return;
+    }
 
     if (*count > MAX_STUDENTS ||
         *count < 0) {
@@ -766,16 +790,22 @@ void loadStudents(struct Student students[], int *count) {
         return;
     }
 
-    fread(students,
-          sizeof(struct Student),
-          *count,
-          file);
+    if (fread(students,
+              sizeof(struct Student),
+              *count,
+              file) != (size_t)*count) {
+        *count = 0;
+        fclose(file);
+        printf("\nCould not read all student records!\n");
+        return;
+    }
 
     fclose(file);
 
     printf("\n%d student record(s) loaded. 📂\n",
            *count);
 }
+
 
 // CLASS STATISTICS
 void classStatistics(struct Student students[], int count)
@@ -830,34 +860,32 @@ void classStatistics(struct Student students[], int count)
     printf("======================================\n");
 }
 
-// SEARCH STUDENT BY NAME - CASE INSENSITIVE
+
+// NAME SEARCH FUNCTION - CASE INSENSITIVE
 void searchByName(struct Student students[], int count)
 {
     if (count == 0)
     {
-        printf("\nNo student records available!\n");
+        printf("\nNo student records available.\n");
         return;
     }
 
     char searchName[50];
     int found = 0;
 
-    printf("\n========== SEARCH STUDENT BY NAME ==========\n");
-    printf("Enter student name: ");
+    printf("\nEnter student name to search: ");
+    scanf(" %49[^\n]", searchName);
 
-    scanf(" %[^\n]", searchName);
-
-    // Convert search name to lowercase
+    // Convert search text to lowercase
     for (int i = 0; searchName[i] != '\0'; i++)
     {
         if (searchName[i] >= 'A' && searchName[i] <= 'Z')
         {
-            searchName[i] = searchName[i] + 32;
+            searchName[i] = searchName[i] + ('a' - 'A');
         }
     }
 
-    printf("\nSearch Results:\n");
-    printf("-----------------------------------------------\n");
+    printf("\n========== SEARCH RESULTS ==========\n");
 
     for (int i = 0; i < count; i++)
     {
@@ -870,20 +898,18 @@ void searchByName(struct Student students[], int count)
         {
             if (studentName[j] >= 'A' && studentName[j] <= 'Z')
             {
-                studentName[j] = studentName[j] + 32;
+                studentName[j] = studentName[j] + ('a' - 'A');
             }
         }
 
-        // Partial name matching
         if (strstr(studentName, searchName) != NULL)
         {
-            printf("Roll No     : %d\n", students[i].rollNo);
+            printf("\nRoll Number : %d\n", students[i].rollNo);
             printf("Name        : %s\n", students[i].name);
             printf("Age         : %d\n", students[i].age);
             printf("Percentage  : %.2f%%\n", students[i].percentage);
             printf("Grade       : %c\n", students[i].grade);
-
-            printf("-----------------------------------------------\n");
+            printf("Attendance  : %.2f%%\n", students[i].attendancePercentage);
 
             found = 1;
         }
@@ -891,12 +917,15 @@ void searchByName(struct Student students[], int count)
 
     if (!found)
     {
-        printf("No student found with name containing \"%s\".\n", searchName);
+        printf("No student found with that name.\n");
     }
+
+    printf("====================================\n");
 }
 
-// STUDENT RANKING WITH TIED RANKS
-void studentRanking(struct Student students[], int count)
+
+// UPDATE STUDENT ATTENDANCE
+void updateAttendance(struct Student students[], int count)
 {
     if (count == 0)
     {
@@ -904,185 +933,121 @@ void studentRanking(struct Student students[], int count)
         return;
     }
 
-    struct Student ranking[MAX_STUDENTS];
+    int rollNo;
 
-    // Copy original records
-    for (int i = 0; i < count; i++)
+    printf("\n========== UPDATE ATTENDANCE ==========\n");
+    printf("Enter Roll Number: ");
+
+    if (scanf("%d", &rollNo) != 1)
     {
-        ranking[i] = students[i];
+        printf("Invalid input!\n");
+        while (getchar() != '\n');
+        return;
     }
 
-    // Sort students by percentage in descending order
-    for (int i = 0; i < count - 1; i++)
+    for (int i = 0; i < count; i++)
     {
-        for (int j = 0; j < count - i - 1; j++)
+        if (students[i].rollNo == rollNo)
         {
-            if (ranking[j].percentage < ranking[j + 1].percentage)
-            {
-                struct Student temp;
+            printf("\nStudent Found! ✅\n");
+            printf("Name: %s\n", students[i].name);
+            printf("Current Attendance: %.2f%%\n",
+                   students[i].attendancePercentage);
 
-                temp = ranking[j];
-                ranking[j] = ranking[j + 1];
-                ranking[j + 1] = temp;
+            while (1)
+            {
+                printf("Enter Total Classes: ");
+
+                if (scanf("%d", &students[i].totalClasses) != 1)
+                {
+                    printf("Invalid input! Enter a number.\n");
+                    while (getchar() != '\n');
+                    continue;
+                }
+
+                if (students[i].totalClasses < 0)
+                {
+                    printf("Total classes cannot be negative.\n");
+                    continue;
+                }
+
+                break;
             }
+
+            while (1)
+            {
+                printf("Enter Classes Attended: ");
+
+                if (scanf("%d", &students[i].attendedClasses) != 1)
+                {
+                    printf("Invalid input! Enter a number.\n");
+                    while (getchar() != '\n');
+                    continue;
+                }
+
+                if (students[i].attendedClasses < 0 ||
+                    students[i].attendedClasses > students[i].totalClasses)
+                {
+                    printf("Attended classes must be between 0 and total classes.\n");
+                    continue;
+                }
+
+                break;
+            }
+
+            if (students[i].totalClasses > 0)
+            {
+                students[i].attendancePercentage =
+                    ((float)students[i].attendedClasses /
+                     students[i].totalClasses) * 100;
+            }
+            else
+            {
+                students[i].attendancePercentage = 0;
+            }
+
+            printf("\nAttendance updated successfully! ✅\n");
+            printf("Attendance: %.2f%%\n",
+                   students[i].attendancePercentage);
+
+            saveStudents(students, count);
+            return;
         }
     }
 
-    printf("\n========== STUDENT RANKING ==========\n");
+    printf("\nStudent not found.\n");
+}
 
-    printf("%-6s %-10s %-25s %-12s\n",
-           "Rank",
+
+// ATTENDANCE REPORT
+void attendanceReport(struct Student students[], int count)
+{
+    if (count == 0)
+    {
+        printf("\nNo student records available!\n");
+        return;
+    }
+
+    printf("\n================ ATTENDANCE REPORT ================\n");
+
+    printf("%-10s %-25s %-15s %-15s %-15s\n",
            "Roll No",
            "Name",
-           "Percentage");
+           "Total Classes",
+           "Attended",
+           "Attendance");
 
-    printf("-------------------------------------------------------\n");
-
-    int rank = 1;
-
-    for (int i = 0; i < count; i++)
-    {
-        // If percentage is different from previous student,
-        // rank becomes the current position
-        if (i > 0 && ranking[i].percentage != ranking[i - 1].percentage)
-        {
-            rank = i + 1;
-        }
-
-        printf("%-6d %-10d %-25s %.2f%%\n",
-               rank,
-               ranking[i].rollNo,
-               ranking[i].name,
-               ranking[i].percentage);
-    }
-
-    printf("=======================================================\n");
-}
-
-// PASS/FAIL SUMMARY
-void passFailSummary(struct Student students[], int count)
-{
-    if (count == 0)
-    {
-        printf("\nNo student records available.\n");
-        return;
-    }
-
-    int passed = 0;
-    int failed = 0;
+    printf("--------------------------------------------------------------------------\n");
 
     for (int i = 0; i < count; i++)
     {
-        if (students[i].percentage >= 40)
-        {
-            passed++;
-        }
-        else
-        {
-            failed++;
-        }
+        printf("%-10d %-25s %-15d %-15d %.2f%%\n",
+               students[i].rollNo,
+               students[i].name,
+               students[i].totalClasses,
+               students[i].attendedClasses,
+               students[i].attendancePercentage);
     }
 
-    float passPercentage = ((float)passed / count) * 100;
-    float failPercentage = ((float)failed / count) * 100;
-
-    printf("\n========== PASS/FAIL SUMMARY ==========\n");
-    printf("Total Students       : %d\n", count);
-    printf("Passed               : %d (%.2f%%)\n", passed, passPercentage);
-    printf("Failed               : %d (%.2f%%)\n", failed, failPercentage);
-
-    printf("\nPass Percentage      : %.2f%%\n", passPercentage);
-    printf("Fail Percentage      : %.2f%%\n", failPercentage);
-    
-    printf("=======================================\n");
-}
-
-// DELETE ALL STUDENTS
-void deleteAllStudents(struct Student students[], int *count)
-{
-    if (*count == 0)
-    {
-        printf("\nNo student records available!\n");
-        return;
-    }
-
-    char confirmation;
-
-    printf("\n========== DELETE ALL RECORDS ==========\n");
-
-    printf("WARNING: This will delete ALL %d student records!\n", *count);
-    printf("Are you sure? (Y/N): ");
-
-    scanf(" %c", &confirmation);
-
-    if (confirmation == 'Y' || confirmation == 'y')
-    {
-        *count = 0;
-
-        saveStudents(students, *count);
-
-        printf("\nAll student records have been deleted successfully! 🗑️\n");
-    }
-    else
-    {
-        printf("\nDelete operation cancelled.\n");
-    }
-}
-
-// SUBJECT-WISE STATISTICS
-void subjectStatistics(struct Student students[], int count)
-{
-    if (count == 0)
-    {
-        printf("\nNo student records available!\n");
-        return;
-    }
-
-    printf("\n========== SUBJECT-WISE STATISTICS ==========\n");
-
-    for (int subject = 0; subject < SUBJECTS; subject++)
-    {
-        float totalMarks = 0;
-        float highestMarks = students[0].marks[subject];
-        float lowestMarks = students[0].marks[subject];
-
-        int highestStudent = 0;
-        int lowestStudent = 0;
-
-        // Calculate total, highest and lowest marks
-        for (int i = 0; i < count; i++)
-        {
-            totalMarks += students[i].marks[subject];
-
-            if (students[i].marks[subject] > highestMarks)
-            {
-                highestMarks = students[i].marks[subject];
-                highestStudent = i;
-            }
-
-            if (students[i].marks[subject] < lowestMarks)
-            {
-                lowestMarks = students[i].marks[subject];
-                lowestStudent = i;
-            }
-        }
-
-        float average = totalMarks / count;
-
-        printf("\n---------- Subject %d ----------\n", subject + 1);
-
-        printf("Average Marks : %.2f\n", average);
-
-        printf("Highest Marks : %.2f\n", highestMarks);
-        printf("Highest Scorer: %s (Roll No: %d)\n",
-               students[highestStudent].name,
-               students[highestStudent].rollNo);
-
-        printf("Lowest Marks  : %.2f\n", lowestMarks);
-        printf("Lowest Scorer : %s (Roll No: %d)\n",
-               students[lowestStudent].name,
-               students[lowestStudent].rollNo);
-    }
-
-    printf("\n=============================================\n");
+    printf("==========================================================================\n");
 }
