@@ -2,9 +2,9 @@
 
 A beginner-friendly **Student Record Management System built using C**.
 
-This project allows users to add, manage, search, update, delete, and analyze student records through a simple console-based interface.
+This project allows users to add, manage, search, update, delete, and analyze student records through a console-based interface.
 
-The project is designed to practice fundamental C programming concepts such as **structures, arrays, functions, loops, conditional statements, file handling, sorting, string handling, statistics, and input validation**.
+The project is designed to practice fundamental C programming concepts such as **structures, arrays, functions, loops, conditional statements, file handling, sorting, string handling, statistics, attendance management, and input validation**.
 
 ---
 
@@ -25,6 +25,9 @@ The project is designed to practice fundamental C programming concepts such as *
 * ✅ Pass/Fail Summary
 * 🗑️ Delete All Records with Confirmation
 * 📚 Subject-Wise Statistics
+* 📅 Student Attendance Management
+* ✏️ Update Attendance
+* 📋 Attendance Report
 * 💾 Save Records
 * 🚪 Exit Confirmation
 * 📁 Automatic Data Loading at Startup
@@ -36,13 +39,24 @@ The project is designed to practice fundamental C programming concepts such as *
 
 Each student record contains:
 
+### Basic Information
+
 * Roll Number
 * Name
 * Age
+
+### Academic Information
+
 * Marks in 5 Subjects
 * Total Marks
 * Percentage
 * Grade
+
+### Attendance Information
+
+* Total Classes
+* Classes Attended
+* Attendance Percentage
 
 ---
 
@@ -110,8 +124,6 @@ RaHuL
 
 can all find the same student.
 
-The search converts the search text and student names to lowercase before performing the search.
-
 ---
 
 ## 🏆 Student Ranking
@@ -121,8 +133,6 @@ The Student Ranking feature displays students according to their percentage in *
 Example:
 
 ```text
-========== STUDENT RANKING ==========
-
 Rank   Roll No    Name                      Percentage
 -------------------------------------------------------
 1      103        Rahul                     95.00%
@@ -136,11 +146,9 @@ The ranking uses a temporary copy of the records so that viewing rankings does n
 
 ## 🥇 Tied Student Ranking
 
-The ranking system supports **tied ranks**.
-
 Students with the same percentage receive the same rank.
 
-For example:
+Example:
 
 ```text
 Percentage
@@ -152,20 +160,19 @@ Percentage
 70%
 ```
 
-The ranking becomes:
+Results in:
 
 ```text
-Rank   Percentage
------------------
-1      95%
-2      90%
-2      90%
-4      80%
-4      80%
-6      70%
+Rank
+1
+2
+2
+4
+4
+6
 ```
 
-This uses **competition ranking**, where the next rank accounts for the number of students who share the previous rank.
+This uses **competition ranking**.
 
 ---
 
@@ -184,26 +191,72 @@ For every subject, the program displays:
 Example:
 
 ```text
-========== SUBJECT-WISE STATISTICS ==========
-
 ---------- Subject 1 ----------
 Average Marks : 78.50
 Highest Marks : 95.00
 Highest Scorer: Rahul (Roll No: 101)
 Lowest Marks  : 61.00
 Lowest Scorer : Aman (Roll No: 102)
-
----------- Subject 2 ----------
-Average Marks : 82.33
-Highest Marks : 98.00
-Highest Scorer: Rohit (Roll No: 103)
-Lowest Marks  : 65.00
-Lowest Scorer : Aman (Roll No: 102)
-
-=============================================
 ```
 
-The statistics are calculated dynamically from the stored student records.
+---
+
+## 📅 Attendance Management
+
+The Attendance Management feature stores attendance information for every student.
+
+The system records:
+
+* Total number of classes
+* Classes attended
+* Attendance percentage
+
+The percentage is calculated using:
+
+```text
+Attendance Percentage =
+(Classes Attended / Total Classes) × 100
+```
+
+Example:
+
+```text
+Total Classes     : 100
+Classes Attended  : 85
+Attendance        : 85.00%
+```
+
+---
+
+## ✏️ Update Attendance
+
+Attendance can be updated using the student's Roll Number.
+
+The program validates that:
+
+* Total classes cannot be negative.
+* Attended classes cannot be negative.
+* Attended classes cannot exceed total classes.
+
+After updating, the attendance percentage is recalculated automatically.
+
+---
+
+## 📋 Attendance Report
+
+The Attendance Report displays attendance information for all students.
+
+Example:
+
+```text
+================ ATTENDANCE REPORT ================
+
+Roll No    Name                      Total Classes   Attended        Attendance
+--------------------------------------------------------------------------
+101        Rahul                     100             85              85.00%
+102        Aman                      100             92              92.00%
+103        Rohit                     100             76              76.00%
+```
 
 ---
 
@@ -236,8 +289,6 @@ Entering `Y` deletes all records.
 
 Entering `N` cancels the operation.
 
-The updated empty record list is also saved to the data file so that deleted records do not reappear after restarting the program.
-
 ---
 
 ## 🚪 Exit Confirmation
@@ -252,7 +303,7 @@ Are you sure you want to exit? (Y/N):
 ```
 
 * `Y` or `y` → Records are saved and the program exits.
-* `N` or `n` → Exit is cancelled and the main menu appears again.
+* `N` or `n` → Exit is cancelled.
 * Any other input → An invalid-input message is displayed.
 
 ---
@@ -277,8 +328,10 @@ The current menu contains:
 11. Pass/Fail Summary
 12. Delete All Records
 13. Subject-Wise Statistics
-14. Save Records
-15. Exit
+14. Update Attendance
+15. Attendance Report
+16. Save Records
+17. Exit
 ```
 
 ---
@@ -293,10 +346,11 @@ students.dat
 
 The program automatically loads previously saved records when it starts.
 
-Records are also automatically saved after important operations such as:
+Records are automatically saved after important operations such as:
 
 * Adding a student
 * Updating a student
+* Updating attendance
 * Deleting a student
 * Deleting all records
 * Exiting the program
@@ -319,6 +373,12 @@ The program validates user input to prevent common errors.
 ### Marks
 
 * Must be between 0 and 100
+
+### Attendance
+
+* Total classes cannot be negative
+* Attended classes cannot be negative
+* Attended classes cannot exceed total classes
 
 ### Menu
 
@@ -384,13 +444,13 @@ gcc student_management.c -o student_management
 
 ### 4. Run the program
 
-On Windows:
+Windows:
 
 ```powershell
 .\student_management.exe
 ```
 
-On Linux/macOS:
+Linux/macOS:
 
 ```bash
 ./student_management
@@ -414,6 +474,7 @@ This project helped me practice:
 * Menu-driven programming
 * Basic statistics
 * Subject-wise data analysis
+* Attendance management
 * Temporary data copies
 * Confirmation-based operations
 * Case-insensitive string searching
@@ -427,15 +488,15 @@ This project helped me practice:
 
 Possible future features include:
 
-* 📅 Attendance management
 * 📄 CSV export
 * 🔐 Password protection
 * 💾 Backup and restore
 * 🎨 Improved console interface
 * 📊 More detailed performance reports
-* 📝 Student attendance percentage
 * 📂 Separate files for different classes
-* 📈 Performance comparison between subjects
+* 📈 Attendance-based warnings
+* 📊 Combined academic and attendance reports
+* 📅 Monthly attendance tracking
 
 ---
 
